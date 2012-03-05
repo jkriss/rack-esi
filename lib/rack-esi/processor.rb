@@ -18,7 +18,8 @@ class Rack::ESI
 
     def include(path)
       # RADAR patron here?
-      esi.call env.merge('PATH_INFO' => path, 'REQUEST_URI' => path)
+      plain_path, query_string = path.split('?')
+      esi.call env.merge('PATH_INFO' => plain_path, 'REQUEST_URI' => path, 'QUERY_STRING' => query_string)
     rescue => e
       return 500, {}, []
     end
